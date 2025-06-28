@@ -26,62 +26,18 @@ def countdown_timer(seconds, action_interval=300):
             pyautogui.typewrite("Don't Sleep!", interval=0.05)
             pyautogui.press("esc")
 
-def voltages_log_space(start_voltage:int, 
-                       stop_voltage:int, 
-                       data_points:int, 
-                       near_zero=0.01,
-                       round_decimal=None):
-    """
-    Generate a list of voltages in a logarithmic space between min_voltage and max_voltage.
-    The list will have data_points number of elements.
-    """
-    # near_zero = 0.01 # a number that is almost zero
-    if start_voltage < 0 and stop_voltage > 0:
-        negatives = -1 * np.geomspace(abs(start_voltage), near_zero, round(data_points / 2))
-        positives = np.geomspace(near_zero, abs(stop_voltage), round(data_points / 2))
-        voltages = np.concatenate([negatives, positives])
-    elif start_voltage < 0 and stop_voltage <= 0:
-        if stop_voltage == 0:
-            stop_voltage = near_zero
-        voltages = -1 * np.geomspace(abs(start_voltage), abs(stop_voltage), data_points)
-    elif start_voltage >= 0 and stop_voltage >= 0:
-        if start_voltage == 0:
-            start_voltage = near_zero
-        voltages = np.geomspace(start_voltage, stop_voltage, data_points)
-    elif stop_voltage < 0 and start_voltage >=0:
-        voltages = -1 * np.geomspace(near_zero, abs(stop_voltage), data_points)
 
-    if round_decimal is not None:
-        return np.round(voltages, round_decimal)
-    return voltages
+def rad_to_deg(rad):
+    if rad is None:
+        return None
+    return rad * 180.0 / np.pi
 
-def voltages_dual_direction(min_voltage, max_voltage, data_points):
-    """
-    Generate a list of voltages in a logarithmic space between min_voltage and max_voltage.
-    The list will have data_points number of elements. Then create a new list from max_voltage to min_voltage. 
-    Then concatenate the two lists and return the result.
-    """
-    voltages = voltages_log_space(min_voltage, max_voltage, data_points)
-    voltages = np.concatenate([voltages, -1 * voltages])
-    return voltages
+def deg_to_rad(deg):
+    if deg is None:
+        return None
+    return deg * np.pi / 180.0
 
-
-if __name__ == "__main__":
-    dont_sleep()
-    time.sleep(2)
-    dont_sleep()
-    time.sleep(2)
-    dont_sleep()
-    # voltages = voltages_log_space(min_voltage=-1000, max_voltage=1000, data_points=100)
-    # print(voltages)
-    # # import matplotlib.pyplot as plt
-    # # plt.plot(voltages, '.-')
-    # # plt.grid(True)
-    # # plt.show()
-    # voltages = voltages_dual_direction(min_voltage=-1000, max_voltage=1000, data_points=100)
-    # print(voltages)
-    # import matplotlib.pyplot as plt
-    # plt.plot(voltages, '.-')
-    # plt.grid(True)
-    # plt.show()
-
+def mirror_deg(deg):
+    if deg is None:
+        return None
+    return 360 - deg

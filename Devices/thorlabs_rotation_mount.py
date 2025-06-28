@@ -6,7 +6,7 @@ import numpy as np
 
 
 class RotationMount:
-    def __init__(self, serial_num, lib_path=r"C:\Program Files\Thorlabs\Kinesis"):
+    def __init__(self, serial_num, label="", mirror=False, lib_path=r"C:\Program Files\Thorlabs\Kinesis"):
         logger.debug(f"Initializing RotationMount with serial number: {serial_num}")
         print(f"Initializing RotationMount with serial number: {serial_num}")
         os.add_dll_directory(lib_path)
@@ -14,6 +14,8 @@ class RotationMount:
             "Thorlabs.MotionControl.KCube.DCServo.dll"
         )  # loading dll
         self.serial_num = c_char_p(serial_num.encode())
+        self.label = label
+        self.mirror = mirror
 
     def open_device(self):
         logger.info("-- Opening Device --")
@@ -53,8 +55,20 @@ class RotationMount:
         )
         return real_pos.value
 
-    def move_to_position(self, new_pos_real):
-        logger.info(f"Moving to position: {new_pos_real}")
+    def move_to_position(self, new_pos_real: float | None):
+        """
+        Move the mount to a position. 
+        If new_pos_real is None, do nothing.
+        If mirror is True, move to the mirror position.
+        Args:
+            new_pos_real: float | None, angle in degrees. If None, do nothing.
+        """
+        if new_pos_real is None:
+            logger.info(f"{self.label} - Not moving")
+            return None
+        if self.mirror:
+            new_pos_real = 360-new_pos_real
+        logger.info(f"{self.label} - Moving to {new_pos_real} degrees")
         new_pos_real = c_double(new_pos_real)
         new_pos_dev = c_int()
         self.lib.CC_GetDeviceUnitFromRealValue(
@@ -67,7 +81,12 @@ class RotationMount:
         # Round to nearest integer to avoid floating point comparison issues
         while not np.isclose(self.current_position, new_pos_real, atol=0.5):
             time.sleep(0.5)
-        logger.debug("Movement completed")
+        logger.debug(f"{self.label} - Movement completed")
+        return self.current_position
+
+    # def move_to_position_mirror(self, new_pos_real):
+    #     mirror_pos = 360 - new_pos_real
+    #     self.move_to_position(mirror_pos)
 
     def close_device(self):
         logger.info("Closing rotation mount device")
