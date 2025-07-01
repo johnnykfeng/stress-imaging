@@ -55,7 +55,7 @@ class RotationMount:
         )
         return real_pos.value
 
-    def move_to_position(self, new_pos_real: float | None):
+    def move_to_position(self, new_pos_real: float | None | str):
         """
         Move the mount to a position. 
         If new_pos_real is None, do nothing.
@@ -63,7 +63,7 @@ class RotationMount:
         Args:
             new_pos_real: float | None, angle in degrees. If None, do nothing.
         """
-        if new_pos_real is None:
+        if new_pos_real is None or new_pos_real == "none":
             logger.info(f"{self.label} - Not moving")
             return None
         if self.mirror:
@@ -83,10 +83,6 @@ class RotationMount:
             time.sleep(0.5)
         logger.debug(f"{self.label} - Movement completed")
         return self.current_position
-
-    # def move_to_position_mirror(self, new_pos_real):
-    #     mirror_pos = 360 - new_pos_real
-    #     self.move_to_position(mirror_pos)
 
     def close_device(self):
         logger.info("Closing rotation mount device")

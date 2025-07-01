@@ -91,15 +91,6 @@ class CameraAutomation:
         pyautogui.press('y')
         logger.success(f"Image saved successfully as {file_name}")
 
-    # def save_recording_xvi(self, file_name, save_path=None):
-    #     logger.info(f"Saving recording as XVI - Filename: {file_name}, Path: {save_path}")
-
-    #     save_location = os.path.join(save_path, file_name)
-
-    #     pyautogui.click(recording_file_path_offset, button='left', duration=0.5, interval=self.mouse_speed)
-    #     pyautogui.typewrite(save_location, interval=self.type_speed)
-    #     time.sleep(0.3)
-    #     pyautogui.click(record_button_position, button='left', duration=0.5, interval=self.mouse_speed)
     
     def record_button_click(self):
         pyautogui.click(record_button_position, button='left', duration=0.1, interval=self.mouse_speed)
