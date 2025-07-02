@@ -139,11 +139,19 @@ def plot_image_plotly(
 
 def crop_image(img_array, crop_range_x, crop_range_y):
     """
-    Crop an image array to a specified range.
+    Crop an image array to a specified range. 
+    If the crop range is out of bounds, it will be set to the nearest valid value.
     """
-    return img_array[
-        crop_range_y[0] : crop_range_y[1], crop_range_x[0] : crop_range_x[1]
-    ]
+    image_size = img_array.shape
+    if crop_range_x[0] < 0:
+        crop_range_x[0] = 0
+    if crop_range_x[1] > image_size[1]:
+        crop_range_x[1] = image_size[1]
+    if crop_range_y[0] < 0:
+        crop_range_y[0] = 0
+    if crop_range_y[1] > image_size[0]:
+        crop_range_y[1] = image_size[0]
+    return img_array[crop_range_y[0] : crop_range_y[1], crop_range_x[0] : crop_range_x[1]]
 
 
 def impute_bad_pixels(img_array, bad_pixels):

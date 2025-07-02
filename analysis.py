@@ -1,5 +1,5 @@
 import numpy as np
-from image_process import png_to_array
+from modules.image_process import png_to_array
 from pathlib import Path
 import matplotlib.pyplot as plt
 # import plotly.express as px
