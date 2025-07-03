@@ -68,9 +68,15 @@ class RotationMount:
             return None
         if self.mirror:
             new_pos_real = 360-new_pos_real
-        logger.info(f"{self.label} - Moving to {new_pos_real} degrees")
+        new_pos_real = new_pos_real % 360 # ensure the angle is within 0-360 degrees
         new_pos_real = c_double(new_pos_real)
         new_pos_dev = c_int()
+
+        if np.isclose(self.current_position, new_pos_real, atol=0.5):
+            logger.info(f"{self.label} - Already at {new_pos_real} degrees")
+            return self.current_position
+
+        logger.info(f"{self.label} - Moving to {new_pos_real} degrees")
         self.lib.CC_GetDeviceUnitFromRealValue(
             self.serial_num, new_pos_real, byref(new_pos_dev), 0
         )

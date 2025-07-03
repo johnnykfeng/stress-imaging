@@ -3,7 +3,7 @@ import numpy as np
 from pathlib import Path
 from modules.image_process import png_to_array, crop_image
 from modules.plotting_modules import create_plotly_figure, heatmap_plot_with_bounding_box
-from analysis import isoclinic_phase, isochromatic_phase
+from phase_analysis import isoclinic_phase, isochromatic_phase
 
 st.set_page_config(page_title="Stress Imaging Analysis", layout="wide")
 st.title("Stress Imaging Analysis")
