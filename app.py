@@ -3,7 +3,7 @@ import numpy as np
 from pathlib import Path
 from modules.image_process import png_to_array, crop_image
 from modules.plotting_modules import create_plotly_figure, heatmap_plot_with_bounding_box
-from phase_analysis import isoclinic_phase, isochromatic_phase
+from modules.phase_analysis import isoclinic_phase, isochromatic_phase
 
 st.set_page_config(page_title="Stress Imaging Analysis", layout="wide")
 st.title("Stress Imaging Analysis")
@@ -15,9 +15,6 @@ phase_method = st.sidebar.selectbox(
     ["arctan2", "arctan"],
     help="Method used to calculate phase angles"
 )
-
-# calibration_file = st.sidebar.file_uploader("Upload Calibration File", 
-#                                             type=['png', 'jpg', 'jpeg'])
 
 # File upload section
 st.header("Image Upload")
@@ -78,27 +75,34 @@ if calibration_file:
                                             fig_width=800,
                                             bounding_box=bounding_box)
         st.plotly_chart(fig)
+
 if uploaded_files:
     # Convert uploaded files to dict
     image_dict = {}
+    image_dict_cropped = {}
     for idx, file in enumerate(uploaded_files):
         name = file.name.split('.')[0].upper()  # Get filename without extension
+        if '_' in name:
+            index_name = name.split('_')[0]
         image_array = png_to_array(file)
-        image_dict[name] = image_array
+        image_dict[index_name] = image_array
         if do_cropping:
             image_array_cropped = crop_image(image_array, crop_range_x, crop_range_y)
-            image_dict[f"{name}_cropped"] = image_array_cropped
+            image_dict_cropped[index_name] = image_array_cropped
         
         # Create plotly figure
         with st.expander(f"{name} Colormap", expanded=False):
             color_range = st.slider("Color Range", 
                                             min_value=0.0, 
                                             max_value=65000.0, 
-                                            value=(float(np.min(image_dict[name])), float(np.max(image_dict[name]))),
+                                            value=(float(np.min(image_dict[index_name])), 
+                                                   float(np.max(image_dict[index_name]))),
                                             key=f"{name}_color_range")
-            # fig = create_plotly_figure(image_dict[name], title=f"{name}", color_range=color_range, cmap=colormap)
+
+            fig = create_plotly_figure(image_dict[index_name], title=f"{name}", color_range=color_range, cmap=colormap)
+            st.plotly_chart(fig)
             if show_full_images:
-                fig = heatmap_plot_with_bounding_box(image_dict[name], 
+                fig = heatmap_plot_with_bounding_box(image_dict[index_name], 
                                                 title=f"{name}", 
                                                 color_map=colormap, 
                                                 color_range=color_range,
@@ -106,46 +110,79 @@ if uploaded_files:
                                                 fig_width=800,
                                                 bounding_box=bounding_box)
                 st.plotly_chart(fig)
+
             if do_cropping and show_cropped_images:
-                fig_cropped = create_plotly_figure(image_dict[f"{name}_cropped"], 
+                fig_cropped = create_plotly_figure(image_dict_cropped[index_name], 
                                                 title=f"{name} Cropped", 
                                                 cmap=colormap, 
                                                 color_range=color_range)
                 st.plotly_chart(fig_cropped)
-    
-#     if len(image_dict) >= 10:  # Check if we have all required images
-#         # Calculate phases
-#         iso_phase = isoclinic_phase(
-#             image_dict['I1'], image_dict['I2'], 
-#             image_dict['I3'], image_dict['I4'],
-#             method=phase_method
-#         )
+
+col1, col2 = st.columns(2)
+with col1:
+    calculate_phase = st.checkbox("Calculate Phase", value=False)
+    phase_cmap = st.selectbox("Phase Colormap", 
+                              ["jet", "viridis", "plasma", "inferno", "magma", "cividis", "turbo", "gray"],
+                              index=0)
+with col2:
+    apply_isoclinic_unwrap = st.checkbox("Apply Isoclinic Unwrap", value=False)
+    apply_isochromatic_unwrap = st.checkbox("Apply Isochromatic Unwrap", value=False)
+
+
+if uploaded_files:
+    if len(uploaded_files) >= 10 and calculate_phase:
+        if image_dict_cropped:
+            images = image_dict_cropped
+        else:
+            images = image_dict
+        # Calculate phases
+        iso_phase = isoclinic_phase(
+            images['I1'], images['I2'], 
+            images['I3'], images['I4'],
+            method=phase_method)
         
-#         # Unwrap isoclinic phase
-#         iso_phase_unwrap = np.unwrap(iso_phase, axis=0)
-#         iso_phase_unwrap = np.unwrap(iso_phase_unwrap, axis=1)
+        # Unwrap isoclinic phase
+        if apply_isoclinic_unwrap:
+            iso_phase = np.unwrap(iso_phase, axis=0)
+            iso_phase = np.unwrap(iso_phase, axis=1)
         
-#         # Calculate isochromatic phase
-#         isochrom_phase = isochromatic_phase(
-#             iso_phase,
-#             image_dict['I5'], image_dict['I6'],
-#             image_dict['I7'], image_dict['I8'],
-#             image_dict['I9'], image_dict['I10'],
-#             method=phase_method
-#         )
+        # Calculate isochromatic phase
+        isochrom_phase = isochromatic_phase(
+            iso_phase,
+            images['I5'], images['I6'],
+            images['I7'], images['I8'],
+            images['I9'], images['I10'],
+            method=phase_method
+        )
         
-#         # Display results
-#         col1, col2 = st.columns(2)
+        # Unwrap isochromatic phase
+        if apply_isochromatic_unwrap:
+            isochrom_phase = np.unwrap(isochrom_phase, axis=0)
+            isochrom_phase = np.unwrap(isochrom_phase, axis=1)
         
-#         with col1:
-#             st.subheader("Isoclinic Phase")
-#             st.image(iso_phase_unwrap, caption="Unwrapped Isoclinic Phase", use_column_width=True)
+        # Display results
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.subheader("Isoclinic Phase")
+            color_range = st.slider("Phase Color Range", 
+                                    value=(float(np.min(iso_phase)), 
+                                           float(np.max(iso_phase))),
+                                    key="iso_phase_color_range")
+            fig = create_plotly_figure(iso_phase, title=" ", cmap=phase_cmap, color_range=color_range)
+            st.plotly_chart(fig)
             
-#         with col2:
-#             st.subheader("Isochromatic Phase")
-#             st.image(isochrom_phase, caption="Isochromatic Phase", use_column_width=True)
-            
-#     else:
-#         st.warning("Please upload all 10 images (I1-I10)")
-# else:
-#     st.info("Upload your images to begin analysis")
+        with col2:
+            st.subheader("Isochromatic Phase")
+            color_range = st.slider("Phase Color Range", 
+                                    value=(float(np.min(isochrom_phase)), 
+                                           float(np.max(isochrom_phase))),
+                                    key="isochrom_phase_color_range")
+            fig = create_plotly_figure(isochrom_phase, title=" ", cmap=phase_cmap, color_range=color_range)
+            st.plotly_chart(fig)
+
+    else:
+        st.warning("Please upload all 10 images (I1-I10)")
+else:
+    st.info("Upload your images to begin analysis")
+

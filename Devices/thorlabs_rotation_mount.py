@@ -55,13 +55,14 @@ class RotationMount:
         )
         return real_pos.value
 
-    def move_to_position(self, new_pos_real: float | None | str):
+    def move_to_position(self, new_pos_real: float | None | str, tolerance=0.1):
         """
         Move the mount to a position. 
         If new_pos_real is None, do nothing.
         If mirror is True, move to the mirror position.
         Args:
             new_pos_real: float | None, angle in degrees. If None, do nothing.
+            tolerance: float, tolerance in degrees. Default is 0.1.
         """
         if new_pos_real is None or new_pos_real == "none":
             logger.info(f"{self.label} - Not moving")
@@ -72,7 +73,7 @@ class RotationMount:
         new_pos_real = c_double(new_pos_real)
         new_pos_dev = c_int()
 
-        if np.isclose(self.current_position, new_pos_real, atol=0.5):
+        if np.isclose(self.current_position, new_pos_real, atol=tolerance):
             logger.info(f"{self.label} - Already at {new_pos_real} degrees")
             return self.current_position
 
@@ -85,7 +86,7 @@ class RotationMount:
         self.lib.CC_MoveAbsolute(self.serial_num)
         # Wait in a loop until the mount reaches the target position (within 0.1 degrees)
         # Round to nearest integer to avoid floating point comparison issues
-        while not np.isclose(self.current_position, new_pos_real, atol=0.5):
+        while not np.isclose(self.current_position, new_pos_real, atol=tolerance):
             time.sleep(0.5)
         logger.debug(f"{self.label} - Movement completed")
         return self.current_position

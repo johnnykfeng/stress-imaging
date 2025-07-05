@@ -27,7 +27,7 @@ for mount in rotation_mounts:
 polarizer_angles = [0, 45, 90]
 for alpha in polarizer_angles:
     polarizer.move_to_position(alpha)
-    for beta in range(0, 360, 10):
+    for beta in range(0, 360, 11.25):
         analyzer.move_to_position(beta)
         if beta == 0:
             cam.save_image_png_typewrite(f"polarizer_{alpha}_analyzer_{beta}_CZT.png", 
