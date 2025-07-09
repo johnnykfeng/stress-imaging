@@ -205,12 +205,13 @@ if uploaded_files:
             st.session_state.do_compress_image = st.checkbox("Compress Image", value=st.session_state.do_compress_image)
         with col2:
             skip_points = st.number_input("Skip Points", value=3, min_value=1, max_value=10, step=1)
+
         if st.session_state.do_compress_image:
             # compressed_image = compress_image_with_gaussian(iso_phase, kernel_size=3, sigma=1.0, jpeg_quality=50, scale_factor=0.5)
             compressed_image = compress_image(iso_phase, skip_points=skip_points)
             color_range = st.slider("Phase Color Range", 
                                     value=(float(np.min(compressed_image)), 
-                                           float(np.max(compressed_image))),
+                                        float(np.max(compressed_image))),
                                     key="compressed_image_color_range")
             fig = create_plotly_figure(compressed_image, title="Compressed Image", cmap=colormap, color_range=color_range)
             st.plotly_chart(fig)
@@ -219,6 +220,12 @@ if uploaded_files:
             # Create download button
             if st.button("Save Compressed Image Data"):
                 np.save(f"compressed_image_{compressed_image.shape[0]}_{compressed_image.shape[1]}.npy", compressed_image)
+
+        # with col2:
+        do_quiver_plot = st.checkbox("Isoclinic Phase Quiver Plot", value=False)
+        if do_quiver_plot:
+            quiver_fig = quiver_plot_matplotlib(compressed_image, scale=1/0.05, vector_scale=0.2)
+            st.pyplot(quiver_fig)
         
         # create_quiver_plot = st.checkbox("Isoclinic Phase Quiver Plot", value=False)
         # if create_quiver_plot:
