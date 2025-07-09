@@ -2,8 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import plotly.express as px
+import plotly.figure_factory as ff
 import os
 import streamlit as st
+import sys
+sys.path.append("C:/Code/Stress-Imaging")
+from modules.image_process import png_to_array
 
 
 def create_plotly_figure(img_array, 
@@ -130,3 +134,46 @@ def heatmap_plot_with_bounding_box(
     
     return fig
 
+
+def quiver_plot_plotly(isoclinic_phase):
+    x, y = np.meshgrid(np.arange(isoclinic_phase.shape[1]), np.arange(isoclinic_phase.shape[0]))
+    u = np.cos(isoclinic_phase)
+    v = np.sin(isoclinic_phase)
+    fig = ff.create_quiver(x, y, u, v, 
+                           scale=0.1, arrow_scale=0.4, line_width=0.5)
+    return fig
+
+def quiver_plot_matplotlib(isoclinic_phase, scale=0.1, vector_scale=0.5, cmap='jet'):
+    image_shape = isoclinic_phase.shape
+    fig_width = 15
+    x, y = np.meshgrid(np.arange(isoclinic_phase.shape[1]), 
+                       np.arange(isoclinic_phase.shape[0]))
+    u = np.cos(isoclinic_phase) * vector_scale
+    v = np.sin(isoclinic_phase) * vector_scale
+    fig, ax = plt.subplots(figsize=(fig_width, fig_width*image_shape[0]/image_shape[1]))
+    # Use C parameter for colormap-based coloring
+    Q = ax.quiver(x, y, u, v, isoclinic_phase,
+              scale=scale,
+              pivot='mid',
+              width=0.001,
+              alpha=0.8,
+              cmap=cmap
+              )
+    
+    # Add colorbar
+    plt.colorbar(Q, ax=ax, label='Phase (radians)')
+    # Set aspect ratio to equal to ensure points are evenly spaced
+    ax.grid(True, which='both', linestyle='--', linewidth=0.5, color='gray', alpha=0.5)
+    ax.set_aspect('equal')
+    ax.invert_yaxis()
+    return fig
+
+
+if __name__ == "__main__":
+    # image = "C:/Code/Stress-Imaging/SAMPLE_DATA/compressed_image_27_180.npy"
+    image = "C:/Code/Stress-Imaging/SAMPLE_DATA/isoclinic_phase_55_361.npy"
+    image_array = np.load(image)
+    fig = quiver_plot_matplotlib(image_array, scale = 1/0.05, vector_scale=0.2)
+    plt.show()
+    # fig = quiver_plot_plotly(image_array)
+    # fig.show()

@@ -488,3 +488,58 @@ if __name__ == "__main__":
 
     plt.tight_layout()
     plt.show()
+
+
+def compress_image_with_gaussian(input_image, kernel_size=5, sigma=1.0, jpeg_quality=50, scale_factor=0.5):
+    """
+    Compresses an image by applying Gaussian blur, resizing, and saving with lower quality.
+
+    :param input_path: Path to input image file
+    :param kernel_size: Size of the Gaussian kernel (must be odd)
+    :param sigma: Standard deviation for Gaussian kernel
+    :param jpeg_quality: JPEG quality (0-100, lower means more compression)
+    :param scale_factor: Factor to resize image dimensions (e.g., 0.5 halves width and height)
+    """
+    # Read image
+    if isinstance(input_image, str):
+        image = cv2.imread(input_image)
+    elif isinstance(input_image, np.ndarray):
+        image = input_image
+    else:
+        raise ValueError("Input image must be a string or a numpy array")
+
+    # Apply Gaussian blur
+    blurred = cv2.GaussianBlur(image, (kernel_size, kernel_size), sigma)
+
+    # Resize image
+    new_width = int(blurred.shape[1] * scale_factor)
+    new_height = int(blurred.shape[0] * scale_factor)
+    resized_image = cv2.resize(blurred, (new_width, new_height), interpolation=cv2.INTER_AREA)
+
+    return resized_image
+
+def compress_image(input_image, skip_points=2):
+    """
+    Compress an image by skipping every nth pixel.
+    """
+    if isinstance(input_image, str):
+        image = cv2.imread(input_image)
+    elif isinstance(input_image, np.ndarray):
+        image = input_image
+    else:
+        raise ValueError("Input image must be a string or a numpy array")
+    
+    # Get image dimensions
+    height, width = image.shape[:2]
+    
+    # Create a new image with skipped pixels
+    compressed_image = np.zeros((height // skip_points+1, width // skip_points+1))
+    
+    # Copy every nth pixel
+    for i in range(height):
+        for j in range(width):
+            if i % skip_points == 0 and j % skip_points == 0:
+                compressed_image[i // skip_points, j // skip_points] = image[i, j]
+    
+    return compressed_image
+
