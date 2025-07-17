@@ -8,12 +8,29 @@ import tomllib
 # from utils import rad_to_deg, deg_to_rad
 # import numpy as np
 import time
+from loguru import logger
+
+# ------------------------------------------------------------------
+# Configure a file sink
+# ------------------------------------------------------------------
+log_dir = Path(__file__).with_suffix("").parent / "logs"
+log_dir.mkdir(exist_ok=True)                           # create folder if it doesn't exist
+logger.add(
+    log_dir / "control_script_{time}.log",             # one file per run
+    level="DEBUG",                                     # capture everything
+    rotation="10 MB",                                  # start a new file when it reaches 10 MB
+    retention="14 days",                               # keep logs for two weeks
+    compression="zip",                                 # older logs are zipped
+    enqueue=True,                                      # thread-/process-safe
+    backtrace=True, diagnose=True                      # nicer tracebacks
+)
 
 config_path = Path(__file__).parent / "config.toml"
 with open(config_path, "rb") as f:
     config = tomllib.load(f)
 
 image_save_path = Path("R:/Pockels_data/STRESS IMAGING/Polariscope-Test")
+image_save_path.mkdir(parents=True, exist_ok=True) # create folder if it doesn't exist
 cam = CameraAutomation()
 led = LEDController()
 led.set_current(800)
@@ -61,10 +78,10 @@ for i, step in enumerate(steps):
         asyncio.run(move_all_mounts(step=step))
         time.sleep(1)
         if i == 0: # only type save path in the first image
-            cam.save_image_png_typewrite(f"{step}.png", 
+            cam.save_image_png_typewrite(f"{step}_CZT.png", 
                                          save_path=str(image_save_path))
         else:
-            cam.save_image_png_typewrite(f"{step}.png")
+            cam.save_image_png_typewrite(f"{step}_CZT.png")
 
 ### SHUTDOWN ###
 led.turn_off()

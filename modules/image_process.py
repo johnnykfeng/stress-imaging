@@ -26,6 +26,21 @@ def png_to_array(image_path, dtype=np.float32):
     img_array = img_array.astype(dtype)
     return img_array
 
+def crop_image(img_array, crop_range_x, crop_range_y):
+    """
+    Crop an image array to a specified range. 
+    If the crop range is out of bounds, it will be set to the nearest valid value.
+    """
+    image_size = img_array.shape
+    if crop_range_x[0] < 0:
+        crop_range_x[0] = 0
+    if crop_range_x[1] > image_size[1]:
+        crop_range_x[1] = image_size[1]
+    if crop_range_y[0] < 0:
+        crop_range_y[0] = 0
+    if crop_range_y[1] > image_size[0]:
+        crop_range_y[1] = image_size[0]
+    return img_array[crop_range_y[0] : crop_range_y[1], crop_range_x[0] : crop_range_x[1]]
 
 def save_array_to_png(img_array, filename, save_dir=None):
     """
@@ -65,7 +80,6 @@ def csv_to_array(filename):
     Convert a CSV file to a numpy array.
     """
     return np.genfromtxt(filename, delimiter=',')
-
 
 def plot_image_colormap(
     img_array,
@@ -114,7 +128,6 @@ def plot_image_colormap(
     ax.set_ylabel("Pixel Y")
     plt.show()
 
-
 def plot_image_plotly(
     img_array, title="Image Colormap", cmap="viridis", z_range=(5, 95)
 ):
@@ -136,24 +149,6 @@ def plot_image_plotly(
     fig.update_layout(title=title)
     fig.show()
 
-
-def crop_image(img_array, crop_range_x, crop_range_y):
-    """
-    Crop an image array to a specified range. 
-    If the crop range is out of bounds, it will be set to the nearest valid value.
-    """
-    image_size = img_array.shape
-    if crop_range_x[0] < 0:
-        crop_range_x[0] = 0
-    if crop_range_x[1] > image_size[1]:
-        crop_range_x[1] = image_size[1]
-    if crop_range_y[0] < 0:
-        crop_range_y[0] = 0
-    if crop_range_y[1] > image_size[0]:
-        crop_range_y[1] = image_size[0]
-    return img_array[crop_range_y[0] : crop_range_y[1], crop_range_x[0] : crop_range_x[1]]
-
-
 def impute_bad_pixels(img_array, bad_pixels):
     """
     Impute bad pixels in an image array.
@@ -174,7 +169,6 @@ def impute_bad_pixels(img_array, bad_pixels):
         if surrounding_values:
             img_array[y, x] = np.mean(surrounding_values)
     return img_array
-
 
 def find_dead_pixels(img_array, threshold=100):
     """
@@ -404,56 +398,6 @@ def find_sensor_edges(image_path,
                                                 edge_threshold2=edge_threshold2, 
                                                 mean_threshold=mean_threshold)
 
-    # if plot:
-    #     fig, axs = plt.subplots(3, 2, figsize=(12, 8))
-    #     plt.subplots_adjust(hspace=0.5, wspace=0.4)
-        
-    #     axs[0, 0].imshow(image, cmap='gray')
-    #     axs[0, 0].set_title('Original Image')
-    #     axs[0, 0].axhline(y=top_edge, color='red', linestyle='--', alpha=0.7)
-    #     axs[0, 0].axhline(y=bottom_edge, color='red', linestyle='--', alpha=0.7)
-    #     axs[0, 0].axvline(x=left_edge, color='blue', linestyle='--', alpha=0.7)
-    #     axs[0, 0].axvline(x=right_edge, color='blue', linestyle='--', alpha=0.7)
-
-    #     axs[0, 1].imshow(canny_edges, cmap='gray')
-    #     axs[0, 1].set_title('Canny Edge Method')
-
-    #     axs[1, 0].plot(np.sum(canny_edges, axis=1), color='green', alpha=0.7)
-    #     axs[1, 0].set_title('Horizontal Edge Strength')
-    #     axs[1, 0].grid(True, linestyle='--', alpha=0.5)
-    #     axs[1, 0].axvline(x=top_edge, color='red', linestyle='--', alpha=0.7)
-    #     axs[1, 0].axvline(x=bottom_edge, color='red', linestyle='--', alpha=0.7)
-    #     axs[1, 0].axhline(y=np.mean(horizontal_edge_strength)*mean_threshold, color='black', linestyle='--', alpha=0.7)
-    #     axs[1, 0].set_xlabel('Row Pixel Index')
-    #     axs[1, 0].set_ylabel('Edge Strength')
-
-    #     axs[1, 1].plot(np.sum(canny_edges, axis=0), color='green', alpha=0.7)
-    #     axs[1, 1].set_title('Vertical Edge Strength')
-    #     axs[1, 1].grid(True, linestyle='--', alpha=0.5)
-    #     axs[1, 1].axvline(x=left_edge, color='blue', linestyle='--', alpha=0.7)
-    #     axs[1, 1].axvline(x=right_edge, color='blue', linestyle='--', alpha=0.7)
-    #     axs[1, 1].axhline(y=np.mean(vertical_edge_strength)*mean_threshold, color='black', linestyle='--', alpha=0.7)
-    #     axs[1, 1].set_xlabel('Column Pixel Index')
-    #     axs[1, 1].set_ylabel('Edge Strength')
-
-    #     # axs[2, 0].imshow(canny_edges, cmap='gray')
-    #     # axs[2, 0].set_title('Canny Edges and Detected Edges')
-    #     # axs[2, 0].axhline(y=top_edge, color='red', linestyle='--', alpha=0.5)
-    #     # axs[2, 0].axhline(y=bottom_edge, color='red', linestyle='--', alpha=0.5)  
-    #     # axs[2, 0].axvline(x=left_edge, color='blue', linestyle='--', alpha=0.5)
-    #     # axs[2, 0].axvline(x=right_edge, color='blue', linestyle='--', alpha=0.5)
-
-    #     axs[2, 0].imshow(image, cmap='gray')
-    #     axs[2, 0].set_title('Detected Rectangle')
-    #     # Draw rectangle around detected edges
-    #     rect = plt.Rectangle((left_edge, top_edge), 
-    #                         right_edge - left_edge, 
-    #                         bottom_edge - top_edge, 
-    #                         fill=False, color='green', linewidth=2, alpha=0.7)
-    #     axs[2, 0].add_patch(rect)
-    # else:
-    #     fig = None
-
     return top_edge, bottom_edge, left_edge, right_edge, canny_edges, horizontal_edge_strength, vertical_edge_strength
 
 def plot_edge_detection_pipeline(image_path, top_edge, bottom_edge, left_edge, right_edge, 
@@ -544,3 +488,58 @@ if __name__ == "__main__":
 
     plt.tight_layout()
     plt.show()
+
+
+def compress_image_with_gaussian(input_image, kernel_size=5, sigma=1.0, jpeg_quality=50, scale_factor=0.5):
+    """
+    Compresses an image by applying Gaussian blur, resizing, and saving with lower quality.
+
+    :param input_path: Path to input image file
+    :param kernel_size: Size of the Gaussian kernel (must be odd)
+    :param sigma: Standard deviation for Gaussian kernel
+    :param jpeg_quality: JPEG quality (0-100, lower means more compression)
+    :param scale_factor: Factor to resize image dimensions (e.g., 0.5 halves width and height)
+    """
+    # Read image
+    if isinstance(input_image, str):
+        image = cv2.imread(input_image)
+    elif isinstance(input_image, np.ndarray):
+        image = input_image
+    else:
+        raise ValueError("Input image must be a string or a numpy array")
+
+    # Apply Gaussian blur
+    blurred = cv2.GaussianBlur(image, (kernel_size, kernel_size), sigma)
+
+    # Resize image
+    new_width = int(blurred.shape[1] * scale_factor)
+    new_height = int(blurred.shape[0] * scale_factor)
+    resized_image = cv2.resize(blurred, (new_width, new_height), interpolation=cv2.INTER_AREA)
+
+    return resized_image
+
+def compress_image(input_image, skip_points=2):
+    """
+    Compress an image by skipping every nth pixel.
+    """
+    if isinstance(input_image, str):
+        image = cv2.imread(input_image)
+    elif isinstance(input_image, np.ndarray):
+        image = input_image
+    else:
+        raise ValueError("Input image must be a string or a numpy array")
+    
+    # Get image dimensions
+    height, width = image.shape[:2]
+    
+    # Create a new image with skipped pixels
+    compressed_image = np.zeros((height // skip_points+1, width // skip_points+1))
+    
+    # Copy every nth pixel
+    for i in range(height):
+        for j in range(width):
+            if i % skip_points == 0 and j % skip_points == 0:
+                compressed_image[i // skip_points, j // skip_points] = image[i, j]
+    
+    return compressed_image
+

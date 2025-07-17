@@ -1,0 +1,105 @@
+2025-07-03 12:19:07.008 | INFO     | Devices.camera_automation:__init__:33 - Initializing CameraAutomation
+2025-07-03 12:19:07.010 | INFO     | Devices.LED_control:__init__:15 - Initializing LED Controller
+2025-07-03 12:19:07.092 | INFO     | Devices.LED_control:__init__:24 - Found 1 upSeries devices
+2025-07-03 12:19:07.143 | DEBUG    | Devices.LED_control:__init__:68 - Connected to device: upLED (SN: M00991470)
+2025-07-03 12:19:07.144 | INFO     | Devices.LED_control:__init__:72 - LED Controller initialization complete
+2025-07-03 12:19:07.144 | DEBUG    | Devices.LED_control:set_current:85 - Setting current to 800 mA
+2025-07-03 12:19:07.145 | INFO     | Devices.LED_control:set_current:96 - Current set to 800.0 mA
+2025-07-03 12:19:07.145 | INFO     | Devices.LED_control:turn_on:103 - Turning LED on
+2025-07-03 12:19:07.145 | DEBUG    | Devices.thorlabs_rotation_mount:__init__:10 - Initializing RotationMount with serial number: 27007173
+2025-07-03 12:19:07.165 | DEBUG    | Devices.thorlabs_rotation_mount:__init__:10 - Initializing RotationMount with serial number: 27007032
+2025-07-03 12:19:07.194 | DEBUG    | Devices.thorlabs_rotation_mount:__init__:10 - Initializing RotationMount with serial number: 27007037
+2025-07-03 12:19:07.222 | DEBUG    | Devices.thorlabs_rotation_mount:__init__:10 - Initializing RotationMount with serial number: 27267316
+2025-07-03 12:19:07.222 | INFO     | Devices.thorlabs_rotation_mount:open_device:21 - -- Opening Device --
+2025-07-03 12:19:09.217 | SUCCESS  | Devices.thorlabs_rotation_mount:open_device:27 - Device opened successfully
+2025-07-03 12:19:09.217 | DEBUG    | Devices.thorlabs_rotation_mount:setup_conversion:39 - Setting up conversion: steps_per_rev=1919.64186, gbox_ratio=1.0, pitch=1.0
+2025-07-03 12:19:09.217 | INFO     | Devices.thorlabs_rotation_mount:open_device:21 - -- Opening Device --
+2025-07-03 12:19:10.923 | SUCCESS  | Devices.thorlabs_rotation_mount:open_device:27 - Device opened successfully
+2025-07-03 12:19:10.923 | DEBUG    | Devices.thorlabs_rotation_mount:setup_conversion:39 - Setting up conversion: steps_per_rev=1919.64186, gbox_ratio=1.0, pitch=1.0
+2025-07-03 12:19:10.923 | INFO     | Devices.thorlabs_rotation_mount:open_device:21 - -- Opening Device --
+2025-07-03 12:19:12.528 | SUCCESS  | Devices.thorlabs_rotation_mount:open_device:27 - Device opened successfully
+2025-07-03 12:19:12.528 | DEBUG    | Devices.thorlabs_rotation_mount:setup_conversion:39 - Setting up conversion: steps_per_rev=1919.64186, gbox_ratio=1.0, pitch=1.0
+2025-07-03 12:19:12.528 | INFO     | Devices.thorlabs_rotation_mount:open_device:21 - -- Opening Device --
+2025-07-03 12:19:13.759 | SUCCESS  | Devices.thorlabs_rotation_mount:open_device:27 - Device opened successfully
+2025-07-03 12:19:13.759 | DEBUG    | Devices.thorlabs_rotation_mount:setup_conversion:39 - Setting up conversion: steps_per_rev=1919.64186, gbox_ratio=1.0, pitch=1.0
+2025-07-03 12:19:16.909 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - Polarizer - Moving to c_double(90.0) degrees
+2025-07-03 12:19:16.909 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - Analyzer - Moving to c_double(180.0) degrees
+2025-07-03 12:19:22.972 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - Polarizer - Movement completed
+2025-07-03 12:19:32.083 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - Analyzer - Movement completed
+2025-07-03 12:19:33.287 | INFO     | Devices.camera_automation:save_image_png_typewrite:67 - Saving image as PNG - Filename: I1_CZT.png, Path: R:\Pockels_data\STRESS IMAGING\Polariscope-Test
+2025-07-03 12:19:40.880 | SUCCESS  | Devices.camera_automation:save_image_png_typewrite:92 - Image saved successfully as I1_CZT.png
+2025-07-03 12:19:46.726 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - Polarizer - Moving to c_double(135.0) degrees
+2025-07-03 12:19:46.726 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:77 - Analyzer - Already at c_double(180.0) degrees
+2025-07-03 12:19:52.787 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - Polarizer - Movement completed
+2025-07-03 12:19:53.991 | INFO     | Devices.camera_automation:save_image_png_typewrite:67 - Saving image as PNG - Filename: I2_CZT.png, Path: None
+2025-07-03 12:19:57.659 | SUCCESS  | Devices.camera_automation:save_image_png_typewrite:92 - Image saved successfully as I2_CZT.png
+2025-07-03 12:19:59.962 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - Analyzer - Moving to c_double(225.0) degrees
+2025-07-03 12:19:59.962 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - Polarizer - Moving to c_double(90.0) degrees
+2025-07-03 12:20:06.022 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - Analyzer - Movement completed
+2025-07-03 12:20:06.723 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - Polarizer - Movement completed
+2025-07-03 12:20:07.927 | INFO     | Devices.camera_automation:save_image_png_typewrite:67 - Saving image as PNG - Filename: I3_CZT.png, Path: None
+2025-07-03 12:20:11.594 | SUCCESS  | Devices.camera_automation:save_image_png_typewrite:92 - Image saved successfully as I3_CZT.png
+2025-07-03 12:20:18.003 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - Analyzer - Moving to c_double(135.0) degrees
+2025-07-03 12:20:18.004 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - Polarizer - Moving to c_double(135.0) degrees
+2025-07-03 12:20:24.064 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - Polarizer - Movement completed
+2025-07-03 12:20:28.973 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - Analyzer - Movement completed
+2025-07-03 12:20:30.176 | INFO     | Devices.camera_automation:save_image_png_typewrite:67 - Saving image as PNG - Filename: I4_CZT.png, Path: None
+2025-07-03 12:20:33.845 | SUCCESS  | Devices.camera_automation:save_image_png_typewrite:92 - Image saved successfully as I4_CZT.png
+2025-07-03 12:21:10.891 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - Polarizer - Moving to c_double(180.0) degrees
+2025-07-03 12:21:10.891 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - QWP1 - Moving to c_double(0.0) degrees
+2025-07-03 12:21:10.892 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - Analyzer - Moving to c_double(180.0) degrees
+2025-07-03 12:21:10.892 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - QWP2 - Moving to c_double(135.0) degrees
+2025-07-03 12:21:16.952 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - Analyzer - Movement completed
+2025-07-03 12:21:16.952 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - Polarizer - Movement completed
+2025-07-03 12:21:21.859 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - QWP2 - Movement completed
+2025-07-03 12:21:35.876 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - QWP1 - Movement completed
+2025-07-03 12:21:37.080 | INFO     | Devices.camera_automation:save_image_png_typewrite:67 - Saving image as PNG - Filename: I5_CZT.png, Path: None
+2025-07-03 12:21:40.755 | SUCCESS  | Devices.camera_automation:save_image_png_typewrite:92 - Image saved successfully as I5_CZT.png
+2025-07-03 12:21:45.732 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:77 - Polarizer - Already at c_double(180.0) degrees
+2025-07-03 12:21:45.732 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:77 - QWP1 - Already at c_double(0.0) degrees
+2025-07-03 12:21:45.733 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:77 - QWP2 - Already at c_double(135.0) degrees
+2025-07-03 12:21:45.733 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - Analyzer - Moving to c_double(270.0) degrees
+2025-07-03 12:21:56.702 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - Analyzer - Movement completed
+2025-07-03 12:21:57.905 | INFO     | Devices.camera_automation:save_image_png_typewrite:67 - Saving image as PNG - Filename: I6_CZT.png, Path: None
+2025-07-03 12:22:01.580 | SUCCESS  | Devices.camera_automation:save_image_png_typewrite:92 - Image saved successfully as I6_CZT.png
+2025-07-03 12:24:04.931 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:77 - QWP1 - Already at c_double(0.0) degrees
+2025-07-03 12:24:04.931 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:77 - Polarizer - Already at c_double(180.0) degrees
+2025-07-03 12:24:04.931 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - QWP2 - Moving to c_double(90.0) degrees
+2025-07-03 12:24:04.932 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:77 - Analyzer - Already at c_double(270.0) degrees
+2025-07-03 12:24:11.693 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - QWP2 - Movement completed
+2025-07-03 12:24:12.897 | INFO     | Devices.camera_automation:save_image_png_typewrite:67 - Saving image as PNG - Filename: I7_CZT.png, Path: None
+2025-07-03 12:24:16.560 | SUCCESS  | Devices.camera_automation:save_image_png_typewrite:92 - Image saved successfully as I7_CZT.png
+2025-07-03 12:24:20.775 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:77 - Polarizer - Already at c_double(180.0) degrees
+2025-07-03 12:24:20.775 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:77 - QWP1 - Already at c_double(0.0) degrees
+2025-07-03 12:24:20.776 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - QWP2 - Moving to c_double(135.0) degrees
+2025-07-03 12:24:20.776 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - Analyzer - Moving to c_double(225.0) degrees
+2025-07-03 12:24:26.836 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - QWP2 - Movement completed
+2025-07-03 12:24:27.537 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - Analyzer - Movement completed
+2025-07-03 12:24:28.740 | INFO     | Devices.camera_automation:save_image_png_typewrite:67 - Saving image as PNG - Filename: I8_CZT.png, Path: None
+2025-07-03 12:24:32.414 | SUCCESS  | Devices.camera_automation:save_image_png_typewrite:92 - Image saved successfully as I8_CZT.png
+2025-07-03 12:24:35.416 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:77 - Polarizer - Already at c_double(180.0) degrees
+2025-07-03 12:24:35.417 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - QWP2 - Moving to c_double(90.0) degrees
+2025-07-03 12:24:35.417 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - QWP1 - Moving to c_double(225.0) degrees
+2025-07-03 12:24:35.417 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - Analyzer - Moving to c_double(270.0) degrees
+2025-07-03 12:24:41.478 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - Analyzer - Movement completed
+2025-07-03 12:24:42.179 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - QWP2 - Movement completed
+2025-07-03 12:24:59.703 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - QWP1 - Movement completed
+2025-07-03 12:25:00.907 | INFO     | Devices.camera_automation:save_image_png_typewrite:67 - Saving image as PNG - Filename: I9_CZT.png, Path: None
+2025-07-03 12:25:04.589 | SUCCESS  | Devices.camera_automation:save_image_png_typewrite:92 - Image saved successfully as I9_CZT.png
+2025-07-03 12:25:04.793 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:77 - Polarizer - Already at c_double(180.0) degrees
+2025-07-03 12:25:04.793 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:77 - QWP1 - Already at c_double(225.0) degrees
+2025-07-03 12:25:04.793 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - QWP2 - Moving to c_double(225.0) degrees
+2025-07-03 12:25:04.794 | INFO     | Devices.thorlabs_rotation_mount:move_to_position:80 - Analyzer - Moving to c_double(225.0) degrees
+2025-07-03 12:25:11.557 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - Analyzer - Movement completed
+2025-07-03 12:25:19.970 | DEBUG    | Devices.thorlabs_rotation_mount:move_to_position:91 - QWP2 - Movement completed
+2025-07-03 12:25:21.173 | INFO     | Devices.camera_automation:save_image_png_typewrite:67 - Saving image as PNG - Filename: I10_CZT.png, Path: None
+2025-07-03 12:25:24.915 | SUCCESS  | Devices.camera_automation:save_image_png_typewrite:92 - Image saved successfully as I10_CZT.png
+2025-07-03 12:25:24.915 | INFO     | Devices.LED_control:turn_off:110 - Turning LED off
+2025-07-03 12:25:24.916 | INFO     | Devices.thorlabs_rotation_mount:close_device:95 - Closing rotation mount device
+2025-07-03 12:25:25.532 | DEBUG    | Devices.thorlabs_rotation_mount:close_device:97 - Device closed
+2025-07-03 12:25:25.532 | INFO     | Devices.thorlabs_rotation_mount:close_device:95 - Closing rotation mount device
+2025-07-03 12:25:26.157 | DEBUG    | Devices.thorlabs_rotation_mount:close_device:97 - Device closed
+2025-07-03 12:25:26.157 | INFO     | Devices.thorlabs_rotation_mount:close_device:95 - Closing rotation mount device
+2025-07-03 12:25:26.770 | DEBUG    | Devices.thorlabs_rotation_mount:close_device:97 - Device closed
+2025-07-03 12:25:26.770 | INFO     | Devices.thorlabs_rotation_mount:close_device:95 - Closing rotation mount device
+2025-07-03 12:25:27.423 | DEBUG    | Devices.thorlabs_rotation_mount:close_device:97 - Device closed
