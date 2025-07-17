@@ -4,6 +4,7 @@ import matplotlib.patches as patches
 import plotly.express as px
 import os
 import streamlit as st
+import plotly.figure_factory as ff
 
 
 def create_plotly_figure(img_array, 
@@ -130,3 +131,20 @@ def heatmap_plot_with_bounding_box(
     
     return fig
 
+
+def quiver_plot(isoclinic_phase, image_array):
+    x, y = np.meshgrid(np.arange(image_array.shape[1]), np.arange(image_array.shape[0]))
+    u = np.cos(isoclinic_phase)
+    v = np.sin(isoclinic_phase)
+    fig = px.imshow(image_array, color_continuous_scale="jet")
+    fig.add_traces(
+        px.quiver(x, y, u, v, 
+                  scale=0.1,
+                  arrow_scale=0.4,
+                  line_width=0.5,
+                  name='stress direction',
+                  color=isoclinic_phase, 
+                  color_continuous_scale="jet"
+                  )
+    )
+    return fig
